@@ -42,10 +42,17 @@ set shiftwidth=4 ">> <<시 shift 크기
 
 
 "ㅇVundle 설정
-"set rtp+=~/.vim/bundle/Vundle.vim
-"call vundle#begin()
-"Plugin 'VundleVim/Vundle.vim'
-"call vundle#end()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree' "익스플로러
+Plugin 'AutoComplPop' "^p없이 자동 완성
+Plugin 'taglist-plus' "열려있는 소스 클래스, 함수, 변수 정보 창. 
+"Taglist는 Ctags를 사용하므로 sudo yum install ctags 설치
+"windows에서는 ctags를 PATH 경로(system32로 이동해 주어야 함)
+Plugin 'Raimondi/delimitMate' "자동 괄호 닫기
+Plugin 'machakann/vim-highlightedyank' "복사한 부분 하이라이트
+call vundle#end()
 
 "그외 설정
 set cindent "c타입 인덴트(들여쓰기)?
