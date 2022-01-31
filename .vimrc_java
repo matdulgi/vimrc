@@ -1,52 +1,98 @@
 set nobackup
 set noswapfile
 
-"ㅇ한글 깨짐 해결
+"encoding for korean
 set encoding=utf-8
 set fileencodings=utf-8,cp949
 set langmenu=utf-8
-"encoding : 터미널에 출력될 때의 인코딩
-"   vim이 내부적으로 문자를 표현 하는 방법
-"   " - fileencoding : 파일의 인코딩 (ucs-bom, utf-8, euc-kr, latin1 순으로
-"   작성)
-"   " - 유닉스에서는 cp949대신 euc-kr 써야된다고 함..?
-"
-"ㅇ탭을 스페이스 4번으로 변환
+
 set smartindent
-set tabstop=4
+set tabstop=2
 set expandtab
-set shiftwidth=4
+set shiftwidth=2
 
-"ㅇ폰트 키우기
-set guifont=Fixedsys:h13:cHANGEUL
-"아니 글꼴고르기로 가능하네... 여태 뭐한거지..
+set cursorline
+
+"etc
+set cindent
+set mouse=a " use mousr corsur
+set history=1000 
+"set ignorecase 
+set number
+set clipboard=unnamedplus
+
+"mapping
+:map! jk <ESC>
+:map jk <ESC>
 
 
-"ㅇVundle 설정
+"Vundle setting
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'mattn/emmet-vim' "HTML, CSS 코드 단축입력
-Plugin 'scrooloose/nerdtree' "익스플로러
-Plugin 'AutoComplPop' "^p없이 자동 완성
-Plugin 'taglist-plus' "열려있는 소스 클래스, 함수, 변수 정보 창. 
-"Taglist는 Ctags를 사용하므로 sudo yum install ctags 설치
-Plugin 'Raimondi/delimitMate' "자동 괄호 닫기
-Plugin 'machakann/vim-highlightedyank' "복사한 부분 하이라이트
+Plugin 'scrooloose/nerdtree' 
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() }}
+Plugin 'junegunn/fzf.vim'
+Plugin 'AutoComplPop' 
+Plugin 'taglist-plus' "source class opened, function, vars information
+"Taglist need Ctags, it needs to install ctags by package manaer
+Plugin 'Raimondi/delimitMate' "enclone quote automatically
+Plugin 'machakann/vim-highlightedyank' "hilight copied stuff?
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'Vim-syntastic/syntastic'
+Plugin 'artur-shaik/vim-javacomplete2'
+
 call vundle#end()
-"ㅇemmet설정
-let g:user_emmet_leader_key=','
-"let g:user_emmet_leader_key='<Tab>'
-"imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>") "속도가 느림
 
-"ㅇNerdTree설정
-nmap <F3> :NERDTree<CR> 
-nmap <F4> :TlistToggle<CR>
+"NERDtree
+nmap  <F2> nerd :NERDTree<CR>
+nmap nerd :NERDTreeToggle<CR>
 
+"javacomplete2
+set runtimepath^=~/.vim/bundle/vim-javacomplete2/
+autocmd Filetype java setlocal omnifunc=javacomplete#complete
+filetype plugin indent on 
+syntax on
 
-"그외 설정
-set cindent "c타입 인덴트(들여쓰기)?
-set mouse=a "마우스 커서 사용
-set history=1000 "undo 최대 횟수
-set ignorecase "찾기, 바꾸기시 대소문자 구분하지 않기
-set number
+nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+nmap <F5> <Plug>(JavaComplete-Imports-Add)
+imap <F5> <Plug>(JavaComplete-Imports-Add)
+nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+imap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+nmap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+
+nmap <leader>jI <Plug>(JavaComplete-Imports-AddMissing)
+nmap <leader>jR <Plug>(JavaComplete-Imports-RemoveUnused)
+nmap <leader>ji <Plug>(JavaComplete-Imports-AddSmart)
+nmap <leader>jii <Plug>(JavaComplete-Imports-Add)
+
+imap <C-j>I <Plug>(JavaComplete-Imports-AddMissing)
+imap <C-j>R <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <C-j>i <Plug>(JavaComplete-Imports-AddSmart)
+imap <C-j>ii <Plug>(JavaComplete-Imports-Add)
+
+nmap <leader>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+imap <C-j>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+nmap <leader>jA <Plug>(JavaComplete-Generate-Accessors)
+nmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+nmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+nmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+nmap <leader>jts <Plug>(JavaComplete-Generate-ToString)
+nmap <leader>jeq <Plug>(JavaComplete-Generate-EqualsAndHashCode)
+nmap <leader>jc <Plug>(JavaComplete-Generate-Constructor)
+nmap <leader>jcc <Plug>(JavaComplete-Generate-DefaultConstructor)
+
+imap <C-j>s <Plug>(JavaComplete-Generate-AccessorSetter)
+imap <C-j>g <Plug>(JavaComplete-Generate-AccessorGetter)
+imap <C-j>a <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+vmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+vmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+vmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+nmap <silent> <buffer> <leader>jn <Plug>(JavaComplete-Generate-NewClass)
+nmap <silent> <buffer> <leader>jN <Plug>(JavaComplete-Generate-ClassInFile)
